@@ -17,10 +17,19 @@ public class Model implements Serializable {
     private String ShoeMaker;
     private float ShoePrice;
     private float ShoeSize;
+    private float Amount;
     
 
     public String getShoeName() {
         return ShoeName;
+    }
+
+    public float getAmount() {
+        return Amount;
+    }
+
+    public void setAmount(float Amount) {
+        this.Amount = Amount;
     }
 
     public void setShoeName(String ShoeName) {
@@ -45,12 +54,8 @@ public class Model implements Serializable {
 
     @Override
     public String toString() {
-        return "Model{" + "id=" + id + ", ShoeName=" + ShoeName + ", ShoeMaker=" + ShoeMaker + ", ShoePrice=" + ShoePrice + ", ShoeSize=" + ShoeSize + '}';
+        return "Model{" + "id=" + id + ", ShoeName=" + ShoeName + ", ShoeMaker=" + ShoeMaker + ", ShoePrice=" + ShoePrice + ", ShoeSize=" + ShoeSize + ", Amount=" + Amount + '}';
     }
-
-
-
-
 
     public Long getId() {
         return id;

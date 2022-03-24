@@ -16,7 +16,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="showlogin.jsp">Features</a>
+          <a class="nav-link" href="#">Features</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Pricing</a>
