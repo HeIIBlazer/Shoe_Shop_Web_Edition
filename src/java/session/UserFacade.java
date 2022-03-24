@@ -3,30 +3,34 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Session;
+package session;
 
-import entity.AllCash;
-import java.util.ArrayList;
-import java.util.List;
+
+import entity.User;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
 
 /**
  *
  * @author pupil
  */
-public class AllCashFacade extends AbstractFacade<AllCash> {
-
+public class UserFacade extends AbstractFacade<User> {
+    
     @PersistenceContext(unitName = "ShoeShop_Web_EditionPU")
     private EntityManager em;
+
+    public UserFacade(Class<User> entityClass) {
+        super(entityClass);
+    }
 
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
 
-    public AllCashFacade() {
-        super(AllCash.class);
+    public UserFacade() {
+        super(User.class);
     }
-    
+
 }

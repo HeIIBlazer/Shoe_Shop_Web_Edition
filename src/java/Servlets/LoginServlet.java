@@ -5,29 +5,64 @@
  */
 package Servlets;
 
+import entity.Role;
+import entity.User;
+import entity.UserRole;
 import java.io.IOException;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.ejb.EJB;
+import session.RoleFacade;
+import session.UserFacade;
+import session.UserRoleFacade;
+import tools.PasswordProtected;
 
 /**
  *
  * @author pupil
  */
-@WebServlet(name = "MyServlet",urlPatterns = {
-    "/showindex",
-//    "/showAddModel",
-//    "/addModel",
+@WebServlet(name = "LoginServlet",loadOnStartup = 1, urlPatterns = {
+    
 })
 
-public class MyServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet {
+    @EJB UserFacade userFacade;
+    @EJB RoleFacade roleFacade;
+    @EJB UserRoleFacade userRoleFacade;
 
-   
-
+    @Override
+    public void init() throws ServletException {
+        super.init(); //To change body of generated methods, choose Tools | Templates.
+        if(userFacade.count()>0) return;
+        User user = new User();
+        user.setFirstName("Daniil");
+        user.setSecondName("Vasiljev");
+        user.setPhone("59823871");
+        user.setLogin("admin");
+        PasswordProtected passwordProtected = new PasswordProtected();
+        String salt = passwordProtected.getSalt();
+        user.setSalt(salt);
+        String password = passwordProtected.getProtectedPassword("12345", salt);
+        user.setPassword(password);
+        userFacade.create(user);
+        Role role = new Role();
+        role.setRoleName("USER");
+        roleFacade.create(role);
+        UserRole ur = new UserRole();
+        ur.setRole(role);
+        ur.setUser(user);
+        userRoleFacade.create(ur);
+        role = new Role();
+        role.setRoleName("DIRECTOR");
+        roleFacade.create(role);
+        ur = new UserRole();
+        ur.setRole(role);
+        ur.setUser(user);
+        userRoleFacade.create(ur);
+    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,28 +72,11 @@ public class MyServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        String path = request.getServletPath();
-        switch(path) {
-            case "/showindex":
-                request.getRequestDispatcher("index.jsp").forward(request, response);
-                break;
-                
-                
-//            case "/showAddModel":
-//                request.getRequestDispatcher("/WEB-INF/AddModel.jsp").forward(request, response);
-//                break;
-//            case "/addModel":
-//                String name = request.getParameter("name");
-//                String picture = request.getParameter("picture");
-//                String url = request.getParameter("url");
-//                String urlLogin = request.getParameter("urlLogin");
-//                String urlPassword = request.getParameter("urlPassword");
-        }       
-        
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
