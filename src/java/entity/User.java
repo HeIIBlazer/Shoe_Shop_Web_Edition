@@ -12,7 +12,6 @@ public class User implements Serializable  {
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long clientNumber;
     private String firstName;
     private String secondName;
     private String phone;
@@ -25,7 +24,6 @@ public class User implements Serializable  {
     public int hashCode() {
         int hash = 5;
         hash = 83 * hash + Objects.hashCode(this.id);
-        hash = 83 * hash + Objects.hashCode(this.clientNumber);
         hash = 83 * hash + Objects.hashCode(this.firstName);
         hash = 83 * hash + Objects.hashCode(this.secondName);
         hash = 83 * hash + Objects.hashCode(this.phone);
@@ -72,9 +70,6 @@ public class User implements Serializable  {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.clientNumber, other.clientNumber)) {
-            return false;
-        }
         return true;
     }
 
@@ -82,7 +77,7 @@ public class User implements Serializable  {
     
     @Override
     public String toString() {
-        return "Client{" + "id=" + id + ", clientNumber=" + clientNumber + ", firstName=" + firstName + ", secondName=" + secondName + ", phone=" + phone + ", login=" + login + ", password=" + password + ", salt=" + salt + ", money=" + money + '}';
+        return "Client{" + "id=" + id  + ", firstName=" + firstName + ", secondName=" + secondName + ", phone=" + phone + ", login=" + login + ", password=" + password + ", salt=" + salt + ", money=" + money + '}';
     }
     
     
@@ -93,14 +88,6 @@ public class User implements Serializable  {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getClientNumber() {
-        return clientNumber;
-    }
-
-    public void setClientNumber(Long clientNumber) {
-        this.clientNumber = clientNumber;
     }
 
     public String getFirstName() {

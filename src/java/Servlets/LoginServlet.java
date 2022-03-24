@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import session.RoleFacade;
 import session.UserFacade;
 import session.UserRoleFacade;
@@ -25,7 +26,9 @@ import tools.PasswordProtected;
  * @author pupil
  */
 @WebServlet(name = "LoginServlet",loadOnStartup = 1, urlPatterns = {
-    
+    "/showlogin",
+    "/login",
+    "/logout",
 })
 
 public class LoginServlet extends HttpServlet {
@@ -42,6 +45,7 @@ public class LoginServlet extends HttpServlet {
         user.setSecondName("Vasiljev");
         user.setPhone("59823871");
         user.setLogin("admin");
+        user.setMoney(500);
         PasswordProtected passwordProtected = new PasswordProtected();
         String salt = passwordProtected.getSalt();
         user.setSalt(salt);
@@ -74,8 +78,46 @@ public class LoginServlet extends HttpServlet {
      */
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        throws ServletException, IOException {
+            response.setContentType("text/html;charset=UTF-8");
+            request.setCharacterEncoding("UTF-8");
+            String path = request.getServletPath();
+            switch(path) {
+                case "/showLogin":
+                    request.getRequestDispatcher("showLogin.jsp").forward(request, response);
+                    break;
+                case "/login":
+                    String login = request.getParameter("login");
+                    String password = request.getParameter("password");
+                    //Authentification
+                    User authUser = userFacade.find(login);
+                    if(authUser == null){
+                        request.setAttribute("info", "Неверный логин или пароль");
+                        request.getRequestDispatcher("/showLogin").forward(request, response);
+                        break;
+                    }
+                    //Authorization
+                    String salt = authUser.getSalt();
+                    PasswordProtected passwordProtected = new PasswordProtected();
+                    password = passwordProtected.getProtectedPassword(password, salt);
+                    if(!password.equals(authUser.getPassword())){
+                        request.setAttribute("info", "Неверный логин или пароль");
+                        request.getRequestDispatcher("/showLogin").forward(request, response);
+                        break;
+                    }
+                    HttpSession session = request.getSession(true);
+                    session.setAttribute("authUser", authUser);
+                    request.setAttribute("info", "Привет, "+authUser.getFirstName());
+                    request.getRequestDispatcher("/index").forward(request, response);
+                    break;
+                case "/logout":
+                    session = request.getSession(false);
+                    if(session != null){
+                        session.invalidate();
+                        request.setAttribute("info", "Вы вышли");
+                    }
+                    request.getRequestDispatcher("/index").forward(request, response);
+                    break;
         }
     }
 

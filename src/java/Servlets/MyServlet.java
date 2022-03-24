@@ -11,8 +11,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.ejb.EJB;
+import session.ModelFacade;
+import session.PictureFacade;
+import session.PurchasedFacade;
+import session.UserFacade;
+import session.UserRoleFacade;
 
 /**
  *
@@ -25,7 +29,11 @@ import javax.ejb.EJB;
 })
 
 public class MyServlet extends HttpServlet {
-
+    @EJB ModelFacade modelFacade;
+    @EJB PictureFacade pictureFacade;
+    @EJB UserFacade userFacade;
+    @EJB UserRoleFacade userRolesFacade;
+    @EJB PurchasedFacade purchasedFacade;
    
 
     /**
@@ -38,14 +46,14 @@ public class MyServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        String path = request.getServletPath();
-        switch(path) {
-            case "/showindex":
-                request.getRequestDispatcher("index.jsp").forward(request, response);
-                break;
+        throws ServletException, IOException {
+            response.setContentType("text/html;charset=UTF-8");
+            request.setCharacterEncoding("UTF-8");
+            String path = request.getServletPath();
+            switch(path) {
+                case "/showindex":
+                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                    break;
                 
                 
 //            case "/showAddModel":
