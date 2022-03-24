@@ -5,8 +5,8 @@
  */
 package session;
 
+import entity.Model;
 import entity.Picture;
-import entity.User;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -32,10 +32,10 @@ public class PictureFacade extends AbstractFacade<Picture> {
         super(Picture.class);
     }
 
-    public List<Picture> findAllForUser(User user) {
+    public List<Picture> findAllForModel(Model model) {
         try {
             return em.createQuery("SELECT p FROM Picture p WHERE p.user = :user")
-                    .setParameter("user", user)
+                    .setParameter("model", model)
                     .getResultList();
         } catch (Exception e) {
             return new ArrayList<>();

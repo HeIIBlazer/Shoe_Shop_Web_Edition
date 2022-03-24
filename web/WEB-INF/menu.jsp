@@ -11,7 +11,7 @@
     <div class="collapse navbar-collapse" id="navbarColor02">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-            <a class="nav-link" href="addModel">Заказ обуви</a>
+            <a class="nav-link" href="#">Заказ обуви</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Features</a>

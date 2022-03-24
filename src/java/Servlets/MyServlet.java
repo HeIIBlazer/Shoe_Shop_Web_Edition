@@ -23,18 +23,11 @@ import session.UserRoleFacade;
  * @author pupil
  */
 @WebServlet(name = "MyServlet",urlPatterns = {
-    "/showindex",
-//    "/showAddModel",
-//    "/addModel",
+    "/showIndex",
 })
 
 public class MyServlet extends HttpServlet {
-    @EJB ModelFacade modelFacade;
-    @EJB PictureFacade pictureFacade;
-    @EJB UserFacade userFacade;
-    @EJB UserRoleFacade userRolesFacade;
-    @EJB PurchasedFacade purchasedFacade;
-   
+   @EJB PictureFacade pictureFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -51,20 +44,11 @@ public class MyServlet extends HttpServlet {
             request.setCharacterEncoding("UTF-8");
             String path = request.getServletPath();
             switch(path) {
-                case "/showindex":
+                case "/showIndex":
                     request.getRequestDispatcher("index.jsp").forward(request, response);
                     break;
                 
                 
-//            case "/showAddModel":
-//                request.getRequestDispatcher("/WEB-INF/AddModel.jsp").forward(request, response);
-//                break;
-//            case "/addModel":
-//                String name = request.getParameter("name");
-//                String picture = request.getParameter("picture");
-//                String url = request.getParameter("url");
-//                String urlLogin = request.getParameter("urlLogin");
-//                String urlPassword = request.getParameter("urlPassword");
         }       
         
     }

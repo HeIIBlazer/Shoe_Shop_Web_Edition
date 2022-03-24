@@ -25,7 +25,7 @@ import tools.PasswordProtected;
  *
  * @author pupil
  */
-@WebServlet(name = "LoginServlet",loadOnStartup = 1, urlPatterns = {
+@WebServlet(name = "LoginServlet", urlPatterns = {
     "/showlogin",
     "/login",
     "/logout",
@@ -84,13 +84,13 @@ public class LoginServlet extends HttpServlet {
             String path = request.getServletPath();
             switch(path) {
                 case "/showLogin":
-                    request.getRequestDispatcher("showLogin.jsp").forward(request, response);
+                    request.getRequestDispatcher("/showLogin.jsp").forward(request, response);
                     break;
                 case "/login":
                     String login = request.getParameter("login");
                     String password = request.getParameter("password");
                     //Authentification
-                    User authUser = userFacade.find(login);
+                    User authUser = userFacade.findByLogin(login);
                     if(authUser == null){
                         request.setAttribute("info", "Неверный логин или пароль");
                         request.getRequestDispatcher("/showLogin").forward(request, response);
@@ -108,7 +108,7 @@ public class LoginServlet extends HttpServlet {
                     HttpSession session = request.getSession(true);
                     session.setAttribute("authUser", authUser);
                     request.setAttribute("info", "Привет, "+authUser.getFirstName());
-                    request.getRequestDispatcher("/index").forward(request, response);
+                    request.getRequestDispatcher("/showIndex").forward(request, response);
                     break;
                 case "/logout":
                     session = request.getSession(false);
@@ -116,7 +116,7 @@ public class LoginServlet extends HttpServlet {
                         session.invalidate();
                         request.setAttribute("info", "Вы вышли");
                     }
-                    request.getRequestDispatcher("/index").forward(request, response);
+                    request.getRequestDispatcher("/showIndex").forward(request, response);
                     break;
         }
     }
